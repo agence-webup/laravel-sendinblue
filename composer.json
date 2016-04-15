@@ -1,0 +1,22 @@
+{
+    "name": "webup/laravel-sendinblue",
+    "description": "Laravel's mail transport for SendinBlue",
+    "keywords": ["laravel", "laravel5", "lumen", "sendinblue", "stmp", "mailing"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Baptiste Ducatel",
+            "email": "baptiste@agence-webup.com",
+            "homepage": "http://agence-webup.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "mailin-api/mailin-api-php": "1.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webup\\LaravelSendinBlue\\": "src/"
+        }
+    }
+}
