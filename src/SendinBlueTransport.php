@@ -39,10 +39,18 @@ class SendinBlueTransport extends Transport
             throw new \Exception("Mail not sent : ".$res['message'], 1);
         }
 
-        // Should return value is the number of recipients who were accepted for delivery.
+        // Should return the number of recipients who were accepted for delivery.
         return 0;
     }
 
+    /**
+     * Transforms Swift_Message into data array for SendinBlue's API
+     * cf. https://apidocs.sendinblue.com/tutorial-sending-transactional-email/
+     *
+     * @todo implements attachment, headers, inline_image
+     * @param  Swift_Mime_Message $message
+     * @return array
+     */
     protected function buildData($message)
     {
         $data = [];
@@ -62,11 +70,37 @@ class SendinBlueTransport extends Transport
             }
         }
 
-        $data['html'] = $message->getBody();
-        $data['text'] = strip_tags($message->getBody());
+        // set content
+        if ($message->getContentType() == 'text/plain') {
+            $data['text'] = $message->getBody();
+        } else {
+            $data['html'] = $message->getBody();
+        }
 
-        // @todo implements all mail api (text, cc, bcc, attachment...)
-        // cf. https://apidocs.sendinblue.com/tutorial-sending-transactional-email/
+        $children = $message->getChildren();
+        foreach ($children as $child) {
+            if ($child->getContentType() == 'text/plain') {
+                $data['text'] = $child->getBody();
+            }
+        }
+
+        if (! isset($data['text'])) {
+            $data['text'] = strip_tags($message->getBody());
+        }
+        // end set content
+
+        if ($message->getCc()) {
+            $data['cc'] = $message->getCc();
+        }
+
+        if ($message->getBcc()) {
+            $data['bcc'] = $message->getBcc();
+        }
+
+        if ($message->getReplyTo()) {
+            $data['replyto'] = $message->getReplyTo();
+        }
+
         return $data;
     }
 }
