@@ -4,7 +4,9 @@ namespace Webup\LaravelSendinBlue;
 
 use Illuminate\Mail\Transport\Transport;
 use Sendinblue\Mailin;
+use Swift_Attachment;
 use Swift_Mime_Message;
+use Swift_MimePart;
 
 class SendinBlueTransport extends Transport
 {
@@ -47,7 +49,7 @@ class SendinBlueTransport extends Transport
      * Transforms Swift_Message into data array for SendinBlue's API
      * cf. https://apidocs.sendinblue.com/tutorial-sending-transactional-email/
      *
-     * @todo implements attachment, headers, inline_image
+     * @todo implements headers, inline_image
      * @param  Swift_Mime_Message $message
      * @return array
      */
@@ -79,7 +81,7 @@ class SendinBlueTransport extends Transport
 
         $children = $message->getChildren();
         foreach ($children as $child) {
-            if ($child->getContentType() == 'text/plain') {
+            if ($child instanceof Swift_MimePart && $child->getContentType() == 'text/plain') {
                 $data['text'] = $child->getBody();
             }
         }
@@ -99,6 +101,20 @@ class SendinBlueTransport extends Transport
 
         if ($message->getReplyTo()) {
             $data['replyto'] = $message->getReplyTo();
+        }
+
+        // attachment
+        $attachment = [];
+        foreach ($children as $child) {
+            if ($child instanceof Swift_Attachment) {
+                $filename = $child->getFilename();
+                $content = chunk_split(base64_encode($child->getBody()));
+                $attachment[$filename] = $content;
+            }
+        }
+
+        if (count($attachment)) {
+            $data['attachment'] = $attachment;
         }
 
         return $data;
