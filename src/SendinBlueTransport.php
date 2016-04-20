@@ -37,8 +37,12 @@ class SendinBlueTransport extends Transport
 
         $res = $this->mailin->send_email($this->buildData($message));
 
+        if (!$res) {
+            throw new SendinBlueException("Unknown error");
+        }
+
         if ($res['code'] != 'success') {
-            throw new \Exception("Mail not sent : ".$res['message'], 1);
+            throw new SendinBlueException($res['message']);
         }
 
         // Should return the number of recipients who were accepted for delivery.
@@ -67,9 +71,9 @@ class SendinBlueTransport extends Transport
 
         if ($message->getFrom()) {
             $from = $message->getFrom();
-            foreach ($from as $key => $value) {
-                $data['from'] = [$key, $value];
-            }
+            reset($from);
+            $key = key($from);
+            $data['from'] = [$key, $from[$key]];
         }
 
         // set content
@@ -100,7 +104,10 @@ class SendinBlueTransport extends Transport
         }
 
         if ($message->getReplyTo()) {
-            $data['replyto'] = $message->getReplyTo();
+            $replyTo = $message->getReplyTo();
+            reset($replyTo);
+            $key = key($replyTo);
+            $data['replyto'] = [$key, $replyTo[$key]];
         }
 
         // attachment
