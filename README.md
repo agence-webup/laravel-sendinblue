@@ -2,6 +2,8 @@
 
 Laravel's mail transport for SendinBlue
 
+[![Build Status](https://travis-ci.org/agence-webup/laravel-sendinblue.svg?branch=master)](https://travis-ci.org/agence-webup/laravel-sendinblue)
+
 ## Installation
 
 ```shell
