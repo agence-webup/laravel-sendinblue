@@ -31,9 +31,9 @@ class SendinBlueTransportTest extends PHPUnit_Framework_TestCase
         $message->addPart('This is the text', 'text/plain');
 
         $client = $this->getMockBuilder('Sendinblue\Mailin')
-            ->setMethods(['send_email'])
             ->disableOriginalConstructor()
             ->getMock();
+        $client->method('send_email')->will($this->returnValue(['code' => 'success']));
 
         $transport = new SendinBlueTransport($client);
 
