@@ -14,10 +14,6 @@ class SendinBlueServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(Mailin::class, function ($app) {
-            return new Mailin($app['config']['services.sendinblue.url'], $app['config']['services.sendinblue.key']);
-        });
-
         $this->app['swift.transport']->extend('sendinblue', function ($app) {
             return new SendinBlueTransport($app[Mailin::class]);
         });
@@ -30,5 +26,8 @@ class SendinBlueServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(Mailin::class, function ($app) {
+            return new Mailin($app['config']['services.sendinblue.url'], $app['config']['services.sendinblue.key']);
+        });
     }
 }
