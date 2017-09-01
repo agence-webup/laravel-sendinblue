@@ -1,8 +1,9 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use Webup\LaravelSendinBlue\SendinBlueTransport;
 
-class SendinBlueTransportTest extends PHPUnit_Framework_TestCase
+class SendinBlueTransportTest extends TestCase
 {
     public function testSend()
     {
