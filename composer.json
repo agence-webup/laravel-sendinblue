@@ -1,14 +1,12 @@
 {
-    "name": "webup/laravel-sendinblue",
+    "name": "kaishiyoku/laravel-sendinblue",
     "description": "Laravel's mail transport for SendinBlue",
     "keywords": ["laravel", "laravel5", "lumen", "sendinblue", "stmp", "mailing"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Baptiste Ducatel",
-            "email": "baptiste@agence-webup.com",
-            "homepage": "http://agence-webup.com",
-            "role": "Developer"
+            "name": "Kaishiyoku",
+            "email": "dev@andreas-wiedel.de"
         }
     ],
     "require": {
