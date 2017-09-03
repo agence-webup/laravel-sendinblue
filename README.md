@@ -10,6 +10,14 @@ Laravel's mail transport for SendinBlue
 composer require webup/laravel-sendinblue
 ```
 
+**Compatibility with laravel**
+
+| Version       | Laravel       |
+| ------------- | ------------- |
+| 1.1.*         | 5.5 and above |
+| 1.0.*         | 5.0 - 5.4     |
+
+
 ## Provider
 
 > `config/app.php`
