@@ -5,7 +5,7 @@ namespace Webup\LaravelSendinBlue;
 use Illuminate\Mail\Transport\Transport;
 use Sendinblue\Mailin;
 use Swift_Attachment;
-use Swift_Mime_Message;
+use Swift_Mime_SimpleMessage;
 use Swift_MimePart;
 
 class SendinBlueTransport extends Transport
@@ -31,7 +31,7 @@ class SendinBlueTransport extends Transport
     /**
      * {@inheritdoc}
      */
-    public function send(\Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
+    public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
     {
         $this->beforeSendPerformed($message);
 
@@ -54,7 +54,7 @@ class SendinBlueTransport extends Transport
      * cf. https://apidocs.sendinblue.com/tutorial-sending-transactional-email/
      *
      * @todo implements headers, inline_image
-     * @param  Swift_Mime_Message $message
+     * @param  Swift_Mime_SimpleMessage $message
      * @return array
      */
     protected function buildData($message)
