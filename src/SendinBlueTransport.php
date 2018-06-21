@@ -7,6 +7,7 @@ use Sendinblue\Mailin;
 use Swift_Attachment;
 use Swift_Mime_SimpleMessage;
 use Swift_MimePart;
+use Swift_Mime_Headers_UnstructuredHeader;
 
 class SendinBlueTransport extends Transport
 {
