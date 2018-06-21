@@ -61,6 +61,16 @@ class SendinBlueTransport extends Transport
     {
         $data = [];
 
+        if ($message->getHeaders()) {
+            $headers = $message->getHeaders()->getAll();
+
+            foreach( $headers as $header) {
+                if( $header instanceof Swift_Mime_Headers_UnstructuredHeader ) {
+                    $data['headers'][$header->getFieldName()] = $header->getValue();
+                }
+            }
+        }
+
         if ($message->getTo()) {
             $data['to'] = $message->getTo();
         }
