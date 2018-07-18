@@ -16,8 +16,12 @@ class SendinBlueTransportTest extends TestCase
             'subject' => 'My subject',
             'text' => 'This is the text',
             'html' => 'This is the <h1>HTML</h1>',
+            'headers' => [
+                'Content-Type' => 'multipart/alternative',
+                'MIME-Version' => '1.0',
+                'Subject' => 'My subject',
+            ],
             // 'attachment' => $attachment,
-            // 'headers' => []
             // 'inline_image' => []
         ];
 
