@@ -22,5 +22,12 @@
         "psr-4": {
             "Webup\\LaravelSendinBlue\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webup\\LaravelSendinBlue\\SendinBlueServiceProvider"
+            ]
+        }
     }
 }
