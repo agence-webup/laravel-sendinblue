@@ -7,7 +7,7 @@ use SendinBlue\Client\Api\SMTPApi;
 use SendinBlue\Client\Model\SendSmtpEmail;
 use SendinBlue\Client\Model\SendSmtpEmailAttachment;
 use SendinBlue\Client\Model\SendSmtpEmailBcc;
-use SendinBlue\Client\Model\SendSmtpEmailCC;
+use SendinBlue\Client\Model\SendSmtpEmailCc;
 use SendinBlue\Client\Model\SendSmtpEmailReplyTo;
 use SendinBlue\Client\Model\SendSmtpEmailSender;
 use SendinBlue\Client\Model\SendSmtpEmailTo;
@@ -82,7 +82,7 @@ class SendinBlueTransport extends Transport
         if ($message->getCc()) {
             $cc = [];
             foreach ($message->getCc() as $email => $name) {
-                $cc[] = new SendSmtpEmailCC([
+                $cc[] = new SendSmtpEmailCc([
                     'email' => $email,
                     'name' => $name,
                 ]);
