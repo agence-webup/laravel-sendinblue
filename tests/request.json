@@ -1,0 +1,33 @@
+{
+    "sender": {
+        "name": "from email!",
+        "email": "from@email.com"
+    },
+    "to": [
+        {
+            "email": "to@example.net",
+            "name": "to whom!"
+        }
+    ],
+    "bcc": [
+        {
+            "email": "bcc@example.net",
+            "name": "bcc whom!"
+        }
+    ],
+    "cc": [
+        {
+            "email": "cc@example.net",
+            "name": "cc whom!"
+        }
+    ],
+    "htmlContent": "This is the <h1>HTML<\/h1>",
+    "textContent": "This is the text",
+    "subject": "My subject",
+    "replyTo": [
+        {
+            "email": "replyto@email.com",
+            "name": "reply to!"
+        }
+    ]
+}

@@ -10,12 +10,13 @@ Laravel's mail transport for SendinBlue
 composer require webup/laravel-sendinblue
 ```
 
-**Compatibility with laravel**
+**Compatibility**
 
-| Version       | Laravel       |
-| ------------- | ------------- |
-| 1.1.*         | 5.5 and above |
-| 1.0.*         | 5.0 - 5.4     |
+| Version       | Laravel       | Sendiblue Api |
+| ------------- | ------------- | ------------- |
+| 2.*           | 5.5 and above | v3            |
+| 1.1.*         | 5.5 and above | v2            |
+| 1.0.*         | 5.0 - 5.4     | v2            |
 
 
 ## Provider
@@ -34,8 +35,9 @@ composer require webup/laravel-sendinblue
 
 ```php
     'sendinblue' => [
-       'url' => 'https://api.sendinblue.com/v2.0',
-       'key' => env('SENDINBLUE_KEY'),
+        // api-key or partner-key
+        'key_identifier' => env('SENDINBLUE_KEY_IDENTIFIER', 'api-key'),
+        'key' => env('SENDINBLUE_KEY'),
     ],
 ```
 

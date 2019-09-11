@@ -3,30 +3,36 @@
 namespace Webup\LaravelSendinBlue;
 
 use Illuminate\Mail\Transport\Transport;
-use Sendinblue\Mailin;
+use SendinBlue\Client\Api\SMTPApi;
+use SendinBlue\Client\Model\SendSmtpEmail;
+use SendinBlue\Client\Model\SendSmtpEmailAttachment;
+use SendinBlue\Client\Model\SendSmtpEmailBcc;
+use SendinBlue\Client\Model\SendSmtpEmailCC;
+use SendinBlue\Client\Model\SendSmtpEmailReplyTo;
+use SendinBlue\Client\Model\SendSmtpEmailSender;
+use SendinBlue\Client\Model\SendSmtpEmailTo;
 use Swift_Attachment;
 use Swift_Mime_SimpleMessage;
 use Swift_MimePart;
-use Swift_Mime_Headers_UnstructuredHeader;
 
 class SendinBlueTransport extends Transport
 {
     /**
      * The SendinBlue instance.
      *
-     * @var \Sendinblue\Mailin
+     * @var \SendinBlue\Client\Api\SMTPApi
      */
-    protected $mailin;
+    protected $api;
 
     /**
      * Create a new SendinBlue transport instance.
      *
-     * @param  \Sendinblue\Mailin  $mailin
+     * @param  \SendinBlue\Client\Api\SMTPApi  $mailin
      * @return void
      */
-    public function __construct(Mailin $mailin)
+    public function __construct(SMTPApi $api)
     {
-        $this->mailin = $mailin;
+        $this->api = $api;
     }
 
     /**
@@ -36,105 +42,119 @@ class SendinBlueTransport extends Transport
     {
         $this->beforeSendPerformed($message);
 
-        $res = $this->mailin->send_email($this->buildData($message));
+        $this->api->sendTransacEmail($this->buildData($message));
 
-        if (!$res) {
-            throw new SendinBlueException("Unknown error");
-        }
-
-        if ($res['code'] != 'success') {
-            throw new SendinBlueException($res['message']);
-        }
-
-        // Should return the number of recipients who were accepted for delivery.
         return 0;
     }
 
     /**
-     * Transforms Swift_Message into data array for SendinBlue's API
-     * cf. https://apidocs.sendinblue.com/tutorial-sending-transactional-email/
+     * Transforms Swift_Message into SendinBlue's email
+     * cf. https://github.com/sendinblue/APIv3-php-library/blob/master/docs/Model/SendSmtpEmail.md
      *
-     * @todo implements headers, inline_image
      * @param  Swift_Mime_SimpleMessage $message
-     * @return array
+     * @return SendinBlue\Client\Model\SendSmtpEmail
      */
     protected function buildData($message)
     {
-        $data = [];
-
-        if ($message->getHeaders()) {
-            $headers = $message->getHeaders()->getAll();
-
-            foreach( $headers as $header) {
-                if( $header instanceof Swift_Mime_Headers_UnstructuredHeader ) {
-                    $data['headers'][$header->getFieldName()] = $header->getValue();
-                }
-            }
-        }
-
-        if ($message->getTo()) {
-            $data['to'] = $message->getTo();
-        }
-
-        if ($message->getSubject()) {
-            $data['subject'] = $message->getSubject();
-        }
+        $smtpEmail = new SendSmtpEmail();
 
         if ($message->getFrom()) {
             $from = $message->getFrom();
             reset($from);
             $key = key($from);
-            $data['from'] = [$key, $from[$key]];
+            $smtpEmail->setSender(new SendSmtpEmailSender([
+                'email' => $key,
+                'name' => $from[$key],
+            ]));
+        }
+
+        if ($message->getTo()) {
+            $to = [];
+            foreach ($message->getTo() as $email => $name) {
+                $to[] = new SendSmtpEmailTo([
+                    'email' => $email,
+                    'name' => $name,
+                ]);
+            }
+            $smtpEmail->setTo($to);
+        }
+
+        if ($message->getCc()) {
+            $cc = [];
+            foreach ($message->getCc() as $email => $name) {
+                $cc[] = new SendSmtpEmailCC([
+                    'email' => $email,
+                    'name' => $name,
+                ]);
+            }
+            $smtpEmail->setCC($cc);
+        }
+
+        if ($message->getBcc()) {
+            $bcc = [];
+            foreach ($message->getBcc() as $email => $name) {
+                $bcc[] = new SendSmtpEmailBcc([
+                    'email' => $email,
+                    'name' => $name,
+                ]);
+            }
+            $smtpEmail->setBcc($bcc);
         }
 
         // set content
+        $html = null;
+        $text = null;
         if ($message->getContentType() == 'text/plain') {
-            $data['text'] = $message->getBody();
+            $text = $message->getBody();
         } else {
-            $data['html'] = $message->getBody();
+            $html = $message->getBody();
         }
 
         $children = $message->getChildren();
         foreach ($children as $child) {
             if ($child instanceof Swift_MimePart && $child->getContentType() == 'text/plain') {
-                $data['text'] = $child->getBody();
+                $text = $child->getBody();
             }
         }
 
-        if (! isset($data['text'])) {
-            $data['text'] = strip_tags($message->getBody());
+        if ($text === null) {
+            $text = strip_tags($message->getBody());
         }
+
+        if ($html !== null) {
+            $smtpEmail->setHtmlContent($html);
+        }
+        $smtpEmail->setTextContent($text);
         // end set content
 
-        if ($message->getCc()) {
-            $data['cc'] = $message->getCc();
-        }
-
-        if ($message->getBcc()) {
-            $data['bcc'] = $message->getBcc();
+        if ($message->getSubject()) {
+            $smtpEmail->setSubject($message->getSubject());
         }
 
         if ($message->getReplyTo()) {
-            $replyTo = $message->getReplyTo();
-            reset($replyTo);
-            $key = key($replyTo);
-            $data['replyto'] = [$key, $replyTo[$key]];
+            $replyTo = [];
+            foreach ($message->getReplyTo() as $email => $name) {
+                $replyTo[] = new SendSmtpEmailReplyTo([
+                    'email' => $email,
+                    'name' => $name,
+                ]);
+            }
+            $smtpEmail->setReplyTo($replyTo);
         }
 
-        // attachment
         $attachment = [];
-        foreach ($children as $child) {
+        foreach ($message->getChildren() as $child) {
             if ($child instanceof Swift_Attachment) {
-                $filename = $child->getFilename();
-                $content = chunk_split(base64_encode($child->getBody()));
-                $attachment[$filename] = $content;
+                $attachment[] = new SendSmtpEmailAttachment([
+                    'name' => $child->getFilename(),
+                    'content' => chunk_split(base64_encode($child->getBody()))
+                ]);
             }
         }
-
         if (count($attachment)) {
-            $data['attachment'] = $attachment;
+            $smtpEmail->setAttachment($attachment);
         }
 
-        return $data;
+        return $smtpEmail;
     }
 }

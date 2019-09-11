@@ -7,23 +7,7 @@ class SendinBlueTransportTest extends TestCase
 {
     public function testSend()
     {
-        $expected = [
-            'to' => ['to@example.net' => 'to whom!'],
-            'cc' => ['cc@example.net' => 'cc whom!'],
-            'bcc' => ['bcc@example.net' => 'bcc whom!'],
-            'from' => ['from@email.com', 'from email!'],
-            'replyto' => ['replyto@email.com', 'reply to!'],
-            'subject' => 'My subject',
-            'text' => 'This is the text',
-            'html' => 'This is the <h1>HTML</h1>',
-            'headers' => [
-                'Content-Type' => 'multipart/alternative',
-                'MIME-Version' => '1.0',
-                'Subject' => 'My subject',
-            ],
-            // 'attachment' => $attachment,
-            // 'inline_image' => []
-        ];
+        $expected = file_get_contents('./tests/request.json');
 
         $message = new Swift_Message();
         $message->setTo('to@example.net', 'to whom!');
@@ -35,16 +19,15 @@ class SendinBlueTransportTest extends TestCase
         $message->setBody('This is the <h1>HTML</h1>', 'text/html');
         $message->addPart('This is the text', 'text/plain');
 
-        $client = $this->getMockBuilder('Sendinblue\Mailin')
+        $client = $this->getMockBuilder('SendinBlue\Client\Api\SMTPApi')
             ->disableOriginalConstructor()
             ->getMock();
-        $client->method('send_email')->will($this->returnValue(['code' => 'success']));
 
         $transport = new SendinBlueTransport($client);
 
         $client->expects($this->once())
-            ->method('send_email')
-            ->with($this->equalTo($expected));
+            ->method('sendTransacEmail')
+            ->with(new ToStringIsEqual($expected));
 
         $transport->send($message);
     }
