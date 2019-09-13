@@ -12,6 +12,7 @@ use SendinBlue\Client\Model\SendSmtpEmailReplyTo;
 use SendinBlue\Client\Model\SendSmtpEmailSender;
 use SendinBlue\Client\Model\SendSmtpEmailTo;
 use Swift_Attachment;
+use Swift_Mime_Headers_UnstructuredHeader;
 use Swift_Mime_SimpleMessage;
 use Swift_MimePart;
 
@@ -153,6 +154,20 @@ class SendinBlueTransport extends Transport
         }
         if (count($attachment)) {
             $smtpEmail->setAttachment($attachment);
+        }
+
+        if ($message->getHeaders()) {
+            $headers = [];
+
+            foreach ($message->getHeaders()->getAll() as $header) {
+                if ($header instanceof Swift_Mime_Headers_UnstructuredHeader) {
+                    // remove content type because it creates conflict with content type sets by sendinblue api
+                    if ($header->getFieldName() != 'Content-Type') {
+                        $headers[$header->getFieldName()] = $header->getValue();
+                    }
+                }
+            }
+            $smtpEmail->setHeaders($headers);
         }
 
         return $smtpEmail;

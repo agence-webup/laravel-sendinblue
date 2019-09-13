@@ -29,5 +29,10 @@
             "email": "replyto@email.com",
             "name": "reply to!"
         }
-    ]
+    ],
+    "headers": {
+        "MIME-Version": "1.0",
+        "Subject": "My subject",
+        "X-Mailin-Tag": "test"
+    }
 }
