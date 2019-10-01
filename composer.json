@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "illuminate/mail": "5.5.*|5.6.*|5.7.*|5.8.*|6.0.*",
+        "illuminate/mail": "5.5.*|5.6.*|5.7.*|5.8.*|6.0.*|6.1.*",
         "guzzlehttp/guzzle": "^6.3",
         "sendinblue/api-v3-sdk": "^6.1"
     },
