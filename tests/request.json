@@ -24,12 +24,10 @@
     "htmlContent": "This is the <h1>HTML<\/h1>",
     "textContent": "This is the text",
     "subject": "My subject",
-    "replyTo": [
-        {
-            "email": "replyto@email.com",
-            "name": "reply to!"
-        }
-    ],
+    "replyTo": {
+        "email": "replyto@email.com",
+        "name": "reply to!"
+    },
     "headers": {
         "MIME-Version": "1.0",
         "Subject": "My subject",
