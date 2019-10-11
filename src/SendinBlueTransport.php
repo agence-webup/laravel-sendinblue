@@ -140,7 +140,7 @@ class SendinBlueTransport extends Transport
                     'name' => $name,
                 ]);
             }
-            $smtpEmail->setReplyTo($replyTo);
+            $smtpEmail->setReplyTo(end($replyTo));
         }
 
         $attachment = [];
