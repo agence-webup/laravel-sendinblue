@@ -3,7 +3,6 @@
 namespace Webup\LaravelSendinBlue;
 
 use Illuminate\Mail\MailManager;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use SendinBlue\Client\Api\SMTPApi;
 use SendinBlue\Client\Configuration;
