@@ -2,6 +2,7 @@
 
 namespace Webup\LaravelSendinBlue;
 
+use Illuminate\Mail\MailManager;
 use Illuminate\Support\ServiceProvider;
 use SendinBlue\Client\Api\SMTPApi;
 use SendinBlue\Client\Configuration;
@@ -16,8 +17,8 @@ class SendinBlueServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app['swift.transport']->extend('sendinblue', function ($app) {
-            return new SendinBlueTransport($app[SMTPApi::class]);
+        $this->app[MailManager::class]->extend('sendinblue', function ($app) {
+            return new SendinBlueTransport($this->app->make(SMTPApi::class));
         });
     }
 
@@ -30,7 +31,6 @@ class SendinBlueServiceProvider extends ServiceProvider
     {
         $this->app->singleton(SMTPApi::class, function ($app) {
             $config = Configuration::getDefaultConfiguration()->setApiKey($app['config']['services.sendinblue.key_identifier'], $app['config']['services.sendinblue.key']);
-            // $config = SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
             return new SMTPApi(
                 new GuzzleClient,
