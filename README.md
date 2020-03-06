@@ -14,8 +14,9 @@ composer require webup/laravel-sendinblue
 
 | Version       | Laravel       | Sendiblue Api |
 | ------------- | ------------- | ------------- |
-| 2.*           | 5.5 and above | v3            |
-| 1.1.*         | 5.5 and above | v2            |
+| 3.*           | 7.0 and above | v3            |
+| 2.*           | 5.5 - 6.*     | v3            |
+| 1.1.*         | 5.5 - 6.*     | v2            |
 | 1.0.*         | 5.0 - 5.4     | v2            |
 
 
