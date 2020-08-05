@@ -45,6 +45,6 @@ composer require webup/laravel-sendinblue
 > `.env`
 
 ```
-MAIL_DRIVER=sendinblue
+MAIL_MAILER=sendinblue
 SENDINBLUE_KEY=your-access-key
 ```
