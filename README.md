@@ -20,17 +20,20 @@ composer require webup/laravel-sendinblue
 | 1.0.*         | 5.0 - 5.4     | v2            |
 
 
-## Provider
+## Configuration
 
-> `config/app.php`
+> `config/mail.php`
 
 ```php
-    'providers' => [
-        Webup\LaravelSendinBlue\SendinBlueServiceProvider::class,
-    ],
+    'mailers' => [
+        // ...
+        'sendinblue' => [
+            // api-key or partner-key
+            'key_identifier' => env('SENDINBLUE_KEY_IDENTIFIER', 'api-key'),
+            'key' => env('SENDINBLUE_KEY'),
+        ],
+    ]
 ```
-
-## Configuration
 
 > `config/services.php`
 
