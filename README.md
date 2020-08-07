@@ -28,8 +28,8 @@ composer require webup/laravel-sendinblue
     'mailers' => [
         // ...
         'sendinblue' => [
-            // api-key or partner-key
-            'key_identifier' => env('SENDINBLUE_KEY_IDENTIFIER', 'api-key'),
+            'transport' => 'sendinblue',
+            'key_identifier' => env('SENDINBLUE_KEY_IDENTIFIER', 'api-key'), // api-key or partner-key
             'key' => env('SENDINBLUE_KEY'),
         ],
     ]
