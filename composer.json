@@ -12,8 +12,8 @@
         }
     ],
     "require": {
-        "illuminate/mail": "^7.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.1",
+        "illuminate/mail": "^8.7",
         "sendinblue/api-v3-sdk": "^6.1"
     },
     "require-dev": {
