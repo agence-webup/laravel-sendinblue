@@ -3,7 +3,7 @@
 namespace Webup\LaravelSendinBlue;
 
 use Illuminate\Mail\Transport\Transport;
-use SendinBlue\Client\Api\SMTPApi;
+use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Model\SendSmtpEmail;
 use SendinBlue\Client\Model\SendSmtpEmailAttachment;
 use SendinBlue\Client\Model\SendSmtpEmailBcc;
@@ -12,26 +12,26 @@ use SendinBlue\Client\Model\SendSmtpEmailReplyTo;
 use SendinBlue\Client\Model\SendSmtpEmailSender;
 use SendinBlue\Client\Model\SendSmtpEmailTo;
 use Swift_Attachment;
+use Swift_MimePart;
 use Swift_Mime_Headers_UnstructuredHeader;
 use Swift_Mime_SimpleMessage;
-use Swift_MimePart;
 
 class SendinBlueTransport extends Transport
 {
     /**
      * The SendinBlue instance.
      *
-     * @var \SendinBlue\Client\Api\SMTPApi
+     * @var \SendinBlue\Client\Api\TransactionalEmailsApi
      */
     protected $api;
 
     /**
      * Create a new SendinBlue transport instance.
      *
-     * @param  \SendinBlue\Client\Api\SMTPApi  $mailin
+     * @param  \SendinBlue\Client\Api\TransactionalEmailsApi  $mailin
      * @return void
      */
-    public function __construct(SMTPApi $api)
+    public function __construct(TransactionalEmailsApi $api)
     {
         $this->api = $api;
     }
@@ -148,7 +148,7 @@ class SendinBlueTransport extends Transport
             if ($child instanceof Swift_Attachment) {
                 $attachment[] = new SendSmtpEmailAttachment([
                     'name' => $child->getFilename(),
-                    'content' => chunk_split(base64_encode($child->getBody()))
+                    'content' => chunk_split(base64_encode($child->getBody())),
                 ]);
             }
         }

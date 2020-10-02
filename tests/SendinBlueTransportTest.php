@@ -20,7 +20,7 @@ class SendinBlueTransportTest extends TestCase
         $message->addPart('This is the text', 'text/plain');
         $message->getHeaders()->addTextHeader('X-Mailin-Tag', 'test');
 
-        $client = $this->getMockBuilder('SendinBlue\Client\Api\SMTPApi')
+        $client = $this->getMockBuilder('SendinBlue\Client\Api\TransactionalEmailsApi')
             ->disableOriginalConstructor()
             ->getMock();
 

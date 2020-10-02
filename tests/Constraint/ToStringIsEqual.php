@@ -43,11 +43,11 @@ final class ToStringIsEqual extends Constraint
 
     public function __construct($value, float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false)
     {
-        $this->value        = $value;
-        $this->delta        = $delta;
-        $this->maxDepth     = $maxDepth;
+        $this->value = $value;
+        $this->delta = $delta;
+        $this->maxDepth = $maxDepth;
         $this->canonicalize = $canonicalize;
-        $this->ignoreCase   = $ignoreCase;
+        $this->ignoreCase = $ignoreCase;
     }
 
     /**
@@ -62,7 +62,7 @@ final class ToStringIsEqual extends Constraint
      *
      * @throws ExpectationFailedException
      */
-    public function evaluate($other, string $description = '', bool $returnResult = false)
+    public function evaluate($other, string $description = '', bool $returnResult = false): ?bool
     {
         $otherSring = (string) $other;
 
