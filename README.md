@@ -12,7 +12,7 @@ composer require webup/laravel-sendinblue
 
 **Compatibility**
 
-| Version       | Laravel       | Sendiblue Api |
+| Version       | Laravel       | Sendinblue Api |
 | ------------- | ------------- | ------------- |
 | 3.*           | 7.0 and above | v3            |
 | 2.*           | 5.5 - 6.*     | v3            |
