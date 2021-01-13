@@ -48,4 +48,10 @@ composer require webup/laravel-sendinblue
 ```
 MAIL_MAILER=sendinblue
 SENDINBLUE_KEY=your-access-key
+
+# if you need to set the guzzle proxy config
+# those are example values
+HTTP_PROXY="tcp://localhost:8125"
+HTTPS_PROXY="tcp://localhost:9124"
+NO_PROXY=.mit.edu,foo.com
 ```
