@@ -4,6 +4,13 @@ Laravel's mail transport for SendinBlue
 
 [![Build Status](https://travis-ci.org/agence-webup/laravel-sendinblue.svg?branch=master)](https://travis-ci.org/agence-webup/laravel-sendinblue)
 
+## Summary
+- [laravel-sendinblue](#laravel-sendinblue)
+  - [Summary](#summary)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Regarding additional features](#regarding-additional-features)
+
 ## Installation
 
 ```shell
@@ -55,3 +62,9 @@ HTTP_PROXY="tcp://localhost:8125"
 HTTPS_PROXY="tcp://localhost:9124"
 NO_PROXY=.mit.edu,foo.com
 ```
+
+## Regarding additional features
+
+This library aims to provide a Laravel-compatible interface for SendInBlue. That means it cannot provide features outside of the scope of Laravel transporters.
+
+If you need features like tagging, or specific SendInBlue beta SMTP Template batching, you should directly use the official SendInBlue PHP library.
