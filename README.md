@@ -9,6 +9,7 @@ Laravel's mail transport for SendinBlue
   - [Summary](#summary)
   - [Installation](#installation)
   - [Configuration](#configuration)
+  - [Usage with Sendinblue templates](#usage-in-mailable-with-template-id)
   - [Regarding additional features](#regarding-additional-features)
 
 ## Installation
@@ -63,8 +64,56 @@ HTTPS_PROXY="tcp://localhost:9124"
 NO_PROXY=.mit.edu,foo.com
 ```
 
+## Usage in Mailable with Template Id
+
+Using the `sendinblue()` method you may pass extra fields listed below. All fields are optional:
+
+- `template_id` (integer)
+- `tags` (array)
+- `params` (array)
+
+If you want to use the subject defined in the template, it's necessary to pass
+the `SendinBlueTransport::USE_TEMPLATE_SUBJECT` placeholder in the `subject()`. You may as well override the subject
+text here. Otherwise, without the `subject()` method, the subject will be derived from the class name.
+
+Mailable requires a view - pass an empty array in the `view()` method.
+
+```php
+    use SendinBlue;
+
+    // ...
+
+    public function build()
+    {
+        return $this
+            ->view([])
+            ->subject(SendinBlueTransport::USE_TEMPLATE_SUBJECT) // use template subject
+            // ->subject('My own subject') // subject overridden
+            ->sendinblue(
+                [
+                    'template_id' => 84,
+                    'tags'        => ['offer'],
+                    'params'      => [
+                        'FIRSTNAME' => 'John',
+                        'LINK'      => 'https://www.example.com',
+                        'AMOUNT'    => '29',
+                    ],
+                ]
+            );
+    }
+```
+
+Params are accessbile in the SendinBlue template as:
+
+- `{{ params.FIRSTNAME }}`
+- `{{ params.LINK }}`
+- `{{ params.AMOUNT }}`
+
+You may as well use param substitution in the subject field, eg.:  
+`{{params.FIRSTNAME }}, forgot your password?!`
+
 ## Regarding additional features
 
-This library aims to provide a Laravel-compatible interface for SendInBlue. That means it cannot provide features outside of the scope of Laravel transporters.
+This library aims to provide a Laravel-compatible interface for SendInBlue along with support for template ids, tags and params.
 
-If you need features like tagging, or specific SendInBlue beta SMTP Template batching, you should directly use the official SendInBlue PHP library.
+If you need features like specific SendInBlue beta SMTP Template batching, you should directly use the official SendInBlue PHP library.
