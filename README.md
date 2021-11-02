@@ -4,10 +4,10 @@ Laravel's mail transport for SendinBlue
 
 [![Build Status](https://travis-ci.org/agence-webup/laravel-sendinblue.svg?branch=master)](https://travis-ci.org/agence-webup/laravel-sendinblue)
 
-## Installation
+## Installation of version 2.x
 
 ```shell
-composer require webup/laravel-sendinblue
+composer require webup/laravel-sendinblue:^2
 ```
 
 **Compatibility**
@@ -90,4 +90,4 @@ Params are accessbile in the SendinBlue template as:
  - `{{ params.AMOUNT }}`
 
 You may as well use param substitution in the subject field, eg.:  
-`{{params.FIRSTNAME }}, forgot your password?!`
+`{{ params.FIRSTNAME }}, forgot your password?!`
