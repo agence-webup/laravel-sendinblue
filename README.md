@@ -91,3 +91,5 @@ Params are accessbile in the SendinBlue template as:
 
 You may as well use param substitution in the subject field, eg.:  
 `{{ params.FIRSTNAME }}, forgot your password?!`
+
+Note: Do not use hyphens '-' in the variable names. `{{ params.FIRST_NAME }}` will work properly, but `{{ params.FIRST-NAME }}` will fail. Source: https://github.com/sendinblue/APIv3-php-library/issues/151
