@@ -218,13 +218,13 @@ class SendinBlueTransport extends Transport
                     continue 2;
 
                 case 'tags':
-                    if (is_array($val)) {
+                    if (is_array($val) && !empty($val)) {
                         $smtpEmail->setTags($val);
                     }
                     continue 2;
 
                 case 'params':
-                    if (is_array($val)) {
+                    if (is_array($val) && !empty($val)) {
                         $smtpEmail->setParams($val);
                     }
                     continue 2;
