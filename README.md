@@ -60,7 +60,24 @@ If you want to use the subject defined in the template, it's necessary to pass t
 Mailable requires a view - pass an empty array in the `view()` method.
 
 ```php
-    use SendinBlue;
+<?php
+
+declare(strict_types=1);
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+use Webup\LaravelSendinBlue\SendinBlue; // <- you need this
+use Webup\LaravelSendinBlue\SendinBlueTransport; // <- you need this
+
+class MyMailable extends Mailable
+{
+    use Queueable;
+    use SerializesModels;
+    use SendinBlue; // <- you need this
 
     // ...
 
@@ -82,6 +99,7 @@ Mailable requires a view - pass an empty array in the `view()` method.
                 ]
             );
     }
+}
 ```
 
 Params are accessbile in the SendinBlue template as:
