@@ -79,7 +79,24 @@ text here. Otherwise, without the `subject()` method, the subject will be derive
 Mailable requires a view - pass an empty array in the `view()` method.
 
 ```php
-    use SendinBlue;
+<?php
+
+declare(strict_types=1);
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+use Webup\LaravelSendinBlue\SendinBlue; // <- you need this
+use Webup\LaravelSendinBlue\SendinBlueTransport; // <- you need this
+
+class MyMailable extends Mailable
+{
+    use Queueable;
+    use SerializesModels;
+    use SendinBlue; // <- you need this
 
     // ...
 
@@ -101,6 +118,7 @@ Mailable requires a view - pass an empty array in the `view()` method.
                 ]
             );
     }
+}
 ```
 
 Params are accessbile in the SendinBlue template as:
@@ -110,7 +128,7 @@ Params are accessbile in the SendinBlue template as:
 - `{{ params.AMOUNT }}`
 
 You may as well use param substitution in the subject field, eg.:  
-`{{params.FIRSTNAME }}, forgot your password?!`
+`{{ params.FIRSTNAME }}, forgot your password?!`
 
 Note: Do not use hyphens '-' in the variable names. `{{ params.FIRST_NAME }}` will work properly, but `{{ params.FIRST-NAME }}` will fail. Source: https://github.com/sendinblue/APIv3-php-library/issues/151
 
