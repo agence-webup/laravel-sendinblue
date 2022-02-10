@@ -13,7 +13,7 @@ trait SendinBlue
      */
     public function sendinblue($extraFields)
     {
-        if ($this instanceof Mailable && $this->mailDriver() == "sendinblue") {
+        if ($this instanceof Mailable && ($this->mailDriver() == "sendinblue" || $this->mailDriver() == "log")) {
             $this->withSwiftMessage(
                 function (Swift_Message $message) use ($extraFields) {
                     $message->embed(
