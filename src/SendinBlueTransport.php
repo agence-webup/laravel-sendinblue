@@ -21,6 +21,8 @@ class SendinBlueTransport extends Transport
 {
     use SendinBlue;
 
+    public const TEST_PING_URL = 'https://api.sendinblue.com/v3/swagger_definition.yml';
+
     /**
      * The entity name for storing extra fields.
      *
@@ -54,6 +56,17 @@ class SendinBlueTransport extends Transport
     public function __construct(TransactionalEmailsApi $api)
     {
         $this->api = $api;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
+    public function ping()
+    {
+        $headers = get_headers(self::TEST_URL);
+        return (bool)stripos($headers[0], "200 OK");
     }
 
     /**
