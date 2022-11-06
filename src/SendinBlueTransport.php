@@ -241,6 +241,12 @@ class SendinBlueTransport extends Transport
                         $smtpEmail->setParams($val);
                     }
                     continue 2;
+
+                case 'attachment':
+                    if (is_array($val) && !empty($val)) {
+                        $smtpEmail->setAttachment($val);
+                    }
+                    continue 2;
             }
         }
 
