@@ -1,8 +1,6 @@
 # laravel-sendinblue
 
-Laravel's mail transport for SendinBlue
-
-[![Build Status](https://travis-ci.org/agence-webup/laravel-sendinblue.svg?branch=master)](https://travis-ci.org/agence-webup/laravel-sendinblue)
+Laravel's mail transport for SendinBlue forked from [agence-webup/laravel-sendinblue](https://github.com/agence-webup/laravel-sendinblue).
 
 ## Summary
 - [laravel-sendinblue](#laravel-sendinblue)
@@ -71,12 +69,15 @@ Using the `sendinblue()` method you may pass extra fields listed below. All fiel
 - `template_id` (integer)
 - `tags` (array)
 - `params` (array)
+- `attachment` (array)
 
 If you want to use the subject defined in the template, it's necessary to pass
 the `SendinBlueTransport::USE_TEMPLATE_SUBJECT` placeholder in the `subject()`. You may as well override the subject
 text here. Otherwise, without the `subject()` method, the subject will be derived from the class name.
 
 Mailable requires a view - pass an empty array in the `view()` method.
+
+If you fill the `attachment` key in the `sendinblue()` method that will override attachment added with the laravel `attach` methods.
 
 ```php
 <?php
@@ -114,6 +115,16 @@ class MyMailable extends Mailable
                         'FIRSTNAME' => 'John',
                         'LINK'      => 'https://www.example.com',
                         'AMOUNT'    => '29',
+                    ],
+                    'attachment'  => [
+                        [
+                            'url'     => 'https://path_to_file.pdf',
+                            'name'    => 'file_name.pdf'
+                        ],
+                        [
+                            'content' => 'base64 encoded file content',
+                            'name'    => 'file_name.pdf'
+                        ],
                     ],
                 ]
             );
