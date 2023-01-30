@@ -1,7 +1,16 @@
 {
     "name": "webup/laravel-sendinblue",
     "description": "Laravel's mail transport for SendinBlue",
-    "keywords": ["laravel", "laravel5", "laravel7", "laravel8", "lumen", "sendinblue", "stmp", "mailing"],
+    "keywords": [
+        "laravel",
+        "laravel5",
+        "laravel7",
+        "laravel8",
+        "lumen",
+        "sendinblue",
+        "stmp",
+        "mailing"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -13,8 +22,8 @@
     ],
     "require": {
         "guzzlehttp/guzzle": "^6.2|^7.0",
-        "illuminate/mail": "^7.0|^8.0|^9.0",
-        "sendinblue/api-v3-sdk": "^7.4.4"
+        "illuminate/mail": "^7.0|^8.0|^9.0|^10.0",
+        "sendinblue/api-v3-sdk": "^7.4.4|^8.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0|^9.0"
