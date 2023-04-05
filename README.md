@@ -1,8 +1,21 @@
-# laravel-sendinblue
+# DEPRECATED
 
-Laravel's mail transport for SendinBlue
+![maintenance-status](https://img.shields.io/badge/maintenance-deprecated-red.svg)
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
-[![Build Status](https://travis-ci.org/agence-webup/laravel-sendinblue.svg?branch=master)](https://travis-ci.org/agence-webup/laravel-sendinblue)
+As of April 2023 this repo is deprecated and unmaintained.
+
+Since Laravel 9, there is official support for Sendinblue as a regular mail transport thanks to [symfony/sendinblue-mailer](https://github.com/symfony/sendinblue-mailer).
+It supports SiB through API and SMTP, with templates, tags, and custom headers.
+Because Laravel 8 has reached its [end of life](https://laravel.com/docs/10.x/releases#support-policy), the official support has now become the new default.
+
+You can find more about how to use it inside your Laravel project in the [Laravel documentation](https://laravel.com/docs/9.x/mail#additional-symfony-transports).
+
+For any need beyond beyond that, use Sendinblue's official [PHP SDK](https://github.com/sendinblue/APIv3-php-library).
+
+Feel free to fork this repository if you need to modify it for legacy reasons.
+
+Special thanks to the wonderful contributors that kept this project standing over the years 🙏. You rock 🤘
 
 ## Summary
 - [laravel-sendinblue](#laravel-sendinblue)
